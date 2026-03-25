@@ -38,7 +38,7 @@ python translate.py -i input_file -o output_file
 | Option | Description | Default |
 |--------|-------------|---------|
 | `-m, --model` | Model name | mistral-small:24b |
-| `--provider` | ollama / openrouter / openai / gemini | ollama |
+| `--provider` | ollama / openrouter / openai / gemini / nim | ollama |
 | `--api_endpoint` | API URL | http://localhost:11434/api/generate |
 
 ### API Keys
@@ -48,6 +48,7 @@ python translate.py -i input_file -o output_file
 | `--openrouter_api_key` | OpenRouter API key |
 | `--openai_api_key` | OpenAI API key |
 | `--gemini_api_key` | Gemini API key |
+| `--nim_api_key` | NVIDIA NIM API key |
 
 ### Prompt Options
 
@@ -121,6 +122,12 @@ python translate.py -i book.txt -o book_fr.txt \
     --provider openai \
     --api_endpoint http://localhost:8080/v1/chat/completions \
     -m your-model
+
+# NVIDIA NIM (hosted Llama, Mistral, and more)
+python translate.py -i book.txt -o book_fr.txt \
+    --provider nim \
+    --nim_api_key your-nim-api-key \
+    -m meta/llama-3.1-8b-instruct
 ```
 
 ### With Prompt Options

@@ -35,7 +35,7 @@ Solutions to common problems with TranslateBookWithLLM.
 4. Check firewall (allow port 11434)
 5. Verify endpoint in `.env`: `API_ENDPOINT=http://localhost:11434/api/generate`
 
-### "Invalid API key" (Gemini, OpenAI, OpenRouter)
+### "Invalid API key" (Gemini, OpenAI, OpenRouter, NVIDIA NIM)
 
 **Cause**: Wrong, expired, or missing API key.
 
@@ -47,6 +47,7 @@ Solutions to common problems with TranslateBookWithLLM.
    - Gemini: `GEMINI_API_KEY`
    - OpenAI: `OPENAI_API_KEY`
    - OpenRouter: `OPENROUTER_API_KEY`
+   - NVIDIA NIM: `NIM_API_KEY` (get key at https://build.nvidia.com/)
 
 ### "Rate limit exceeded"
 
@@ -301,7 +302,7 @@ Some models (DeepSeek R1, Qwen3, QwQ, etc.) produce internal reasoning within `<
 
 **Cause**: Invalid provider name in configuration.
 
-**Valid providers**: `ollama`, `gemini`, `openai`, `openrouter`
+**Valid providers**: `ollama`, `gemini`, `openai`, `openrouter`, `mistral`, `deepseek`, `poe`, `nim`
 
 **Solutions**:
 1. Check spelling in `.env`: `LLM_PROVIDER=ollama`

@@ -157,6 +157,46 @@ python translate.py -i book.txt -o book_fr.txt \
 
 ---
 
+## NVIDIA NIM (Cloud)
+
+NVIDIA NIM (NVIDIA Inference Microservices) provides hosted cloud APIs for Llama, Mistral, and other popular open-source models. It's OpenAI-compatible and offers free tier for development.
+
+### Models
+
+- **Llama 3.1** - `meta/llama-3.1-8b-instruct`, `meta/llama-3.1-70b-instruct`, `meta/llama-3.1-405b-instruct`
+- **Llama 3.2** - `meta/llama-3.2-1b-instruct`, `meta/llama-3.2-3b-instruct`
+- **Mistral** - `mistralai/mistral-nemo-12b-instruct`, `mistralai/mixtral-8x7b-instruct-v0.1`
+- **NVIDIA** - `nvidia/llama-3.1-nemotron-70b-instruct`
+- **DeepSeek** - `deepseek-ai/deepseek-v3`, `deepseek-ai/deepseek-r1`
+
+Browse all models: [build.nvidia.com/explore/discover](https://build.nvidia.com/explore/discover)
+
+### Setup
+
+1. Get your API key at [build.nvidia.com](https://build.nvidia.com/)
+2. In TBL: Select "NVIDIA NIM", enter your key
+3. Choose a model from the list
+
+### CLI Example
+
+```bash
+python translate.py -i book.txt -o book_fr.txt \
+    --provider nim \
+    --nim_api_key your-nim-api-key \
+    -m meta/llama-3.1-8b-instruct
+```
+
+### Environment Variables
+
+```bash
+NIM_API_KEY=your-nim-api-key
+NIM_MODEL=meta/llama-3.1-8b-instruct
+# Optional: Custom endpoint (defaults to https://integrate.api.nvidia.com/v1/chat/completions)
+# NIM_API_ENDPOINT=https://integrate.api.nvidia.com/v1/chat/completions
+```
+
+---
+
 ## Environment Variables
 
 Store settings in `.env` file:
@@ -169,6 +209,7 @@ LLM_PROVIDER=ollama
 OPENROUTER_API_KEY=sk-or-v1-...
 OPENAI_API_KEY=sk-...
 GEMINI_API_KEY=...
+NIM_API_KEY=...
 
 # Ollama settings
 API_ENDPOINT=http://localhost:11434/api/generate

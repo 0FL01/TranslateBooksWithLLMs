@@ -217,6 +217,7 @@
                                     <option value="gemini">Gemini (Cloud)</option>
                                     <option value="openai">OpenAI-Compatible</option>
                                     <option value="openrouter">OpenRouter (200+ models)</option>
+                                    <option value="nim">NVIDIA NIM (Cloud)</option>
                                 </select>
                             </div>
                         </div>
@@ -280,6 +281,14 @@
                             <label>API Key <span id="poeKeyStatus" class="key-status"></span></label>
                             <div class="neu-inset-light">
                                 <input type="password" class="form-control" id="poeApiKey" placeholder="Get key at poe.com/api_key" autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <!-- NVIDIA NIM API Key -->
+                        <div class="form-group" id="nimSettings" style="display: none; margin-bottom: 0;">
+                            <label>API Key <span id="nimKeyStatus" class="key-status"></span></label>
+                            <div class="neu-inset-light">
+                                <input type="password" class="form-control" id="nimApiKey" placeholder="Get key at build.nvidia.com" autocomplete="new-password">
                             </div>
                         </div>
                     </div>

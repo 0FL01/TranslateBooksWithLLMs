@@ -93,6 +93,27 @@ LLM_PROVIDER=openai
 OPENAI_API_KEY=your_api_key_here
 ```
 
+### Using NVIDIA NIM (Cloud LLM)
+
+Edit your `.env` file:
+
+```env
+LLM_PROVIDER=nim
+NIM_API_KEY=your_nim_api_key_here
+NIM_MODEL=meta/llama-3.1-8b-instruct
+```
+
+Or via command line:
+
+```bash
+docker run -d \
+  -p 5000:5000 \
+  -e LLM_PROVIDER=nim \
+  -e NIM_API_KEY=your_api_key_here \
+  -e NIM_MODEL=meta/llama-3.1-8b-instruct \
+  ghcr.io/hydropix/translatebookswithllms:latest
+```
+
 ## Advanced Configuration
 
 ### Custom Port

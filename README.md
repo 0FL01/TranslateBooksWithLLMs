@@ -23,7 +23,8 @@ Providers:
 <img src="src/web/static/img/providers/openai.png" alt="OpenAI" height="32">&nbsp;&nbsp;
 <img src="src/web/static/img/providers/mistral.png" alt="Mistral" height="32">&nbsp;&nbsp;
 <img src="src/web/static/img/providers/deepseek.png" alt="DeepSeek" height="32">&nbsp;&nbsp;
-<img src="src/web/static/img/providers/gemini.png" alt="Gemini" height="32">
+<img src="src/web/static/img/providers/gemini.png" alt="Gemini" height="32">&nbsp;&nbsp;
+<img src="src/web/static/img/providers/nvidia.png" alt="NVIDIA NIM" height="32">
 </p>
 
 - [**Ollama**](https://ollama.com/download) (local / cloud)
@@ -33,6 +34,7 @@ Providers:
 - [**Mistral**](https://console.mistral.ai/api-keys)
 - [**DeepSeek**](https://platform.deepseek.com/api_keys)
 - [**Gemini**](https://aistudio.google.com/apikey)
+- [**NVIDIA NIM**](https://build.nvidia.com/) (Hosted Llama, Mistral, and more)
 
 > **[Translation Quality Benchmarks](https://github.com/hydropix/TranslateBooksWithLLMs/wiki)** — Find the best model for your target language.
 
@@ -87,6 +89,7 @@ The web interface opens at **http://localhost:5000**
 | **Mistral** | Cloud | [console.mistral.ai](https://console.mistral.ai/api-keys) |
 | **DeepSeek** | Cloud | [platform.deepseek.com](https://platform.deepseek.com/api_keys) |
 | **Gemini** | Cloud | [Google AI Studio](https://makersuite.google.com/app/apikey) |
+| **NVIDIA NIM** | Cloud | [build.nvidia.com](https://build.nvidia.com/) |
 
 > **OpenAI-Compatible servers:** Use `--provider openai` with your server's endpoint (e.g., llama.cpp: `http://localhost:8080/v1/chat/completions`, LM Studio: `http://localhost:1234/v1/chat/completions`)
 
@@ -115,6 +118,10 @@ python translate.py -i book.txt --provider gemini \
 # With local OpenAI-compatible server (llama.cpp, LM Studio, vLLM, etc.)
 python translate.py -i book.txt --provider openai \
     --api_endpoint http://localhost:8080/v1/chat/completions -m your-model -tl French
+
+# With NVIDIA NIM (hosted Llama, Mistral, and more)
+python translate.py -i book.txt --provider nim \
+    --nim_api_key YOUR_NIM_KEY -m meta/llama-3.1-8b-instruct -tl French
 ```
 
 ### Main Options
@@ -126,7 +133,7 @@ python translate.py -i book.txt --provider openai \
 | `-sl, --source_lang` | Source language | English |
 | `-tl, --target_lang` | Target language | Chinese |
 | `-m, --model` | Model name | mistral-small:24b |
-| `--provider` | ollama/openrouter/openai/gemini | ollama |
+| `--provider` | ollama/openrouter/openai/gemini/nim | ollama |
 | `--text-cleanup` | OCR/typographic cleanup | disabled |
 | `--refine` | Second pass for literary polish | disabled |
 | `--tts` | Generate audio (Edge-TTS) | disabled |
