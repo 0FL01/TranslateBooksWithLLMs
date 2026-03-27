@@ -418,6 +418,95 @@ def create_config_blueprint(server_session_id=None):
                 "error": f"Error connecting to Poe API: {str(e)}"
             })
 
+    def _get_nim_models(provided_api_key=None):
+        """Get available models from NVIDIA NIM API"""
+        from src.config import NIM_API_ENDPOINT
+
+        api_key = _resolve_api_key(provided_api_key, 'NIM_API_KEY', NIM_API_KEY)
+
+        # Use NIM_MODEL from .env, fallback to meta/llama-3.1-8b-instruct
+        default_model = NIM_MODEL if NIM_MODEL else "meta/llama-3.1-8b-instruct"
+
+        if not api_key:
+            return jsonify({
+                "models": [],
+                "model_names": [],
+                "default": default_model,
+                "status": "api_key_missing",
+                "count": 0,
+                "error": "NVIDIA NIM API key is required. Get your key at https://build.nvidia.com/"
+            })
+
+        try:
+            # Determine base URL from endpoint
+            base_url = NIM_API_ENDPOINT.replace('/chat/completions', '').rstrip('/')
+            models_url = f"{base_url}/models"
+            headers = {'Authorization': f'Bearer {api_key}'}
+
+            response = requests.get(models_url, headers=headers, timeout=10)
+
+            if response.status_code == 200:
+                data = response.json()
+                models_data = data.get('data', [])
+
+                if models_data:
+                    # Filter and format models
+                    models = []
+                    for m in models_data:
+                        model_id = m.get('id', '')
+                        # Skip embedding models and other non-chat models
+                        if 'embedding' in model_id.lower() or 'whisper' in model_id.lower():
+                            continue
+                        models.append({
+                            'id': model_id,
+                            'name': model_id,
+                            'owned_by': m.get('owned_by', 'nvidia')
+                        })
+
+                    # Sort models by name
+                    models.sort(key=lambda x: x['name'].lower())
+
+                    if models:
+                        model_ids = [m['id'] for m in models]
+                        if default_model not in model_ids and model_ids:
+                            default_model = model_ids[0]
+                        return jsonify({
+                            "models": models,
+                            "model_names": model_ids,
+                            "default": default_model,
+                            "status": "nim_connected",
+                            "count": len(models)
+                        })
+
+            # If API call failed, return empty with error
+            return jsonify({
+                "models": [],
+                "model_names": [],
+                "default": default_model,
+                "status": "nim_error",
+                "count": 0,
+                "error": f"Failed to retrieve NVIDIA NIM models (HTTP {response.status_code})"
+            })
+
+        except requests.exceptions.ConnectionError:
+            return jsonify({
+                "models": [],
+                "model_names": [],
+                "default": default_model,
+                "status": "nim_error",
+                "count": 0,
+                "error": "Could not connect to NVIDIA NIM API. Check your internet connection."
+            })
+        except Exception as e:
+            return jsonify({
+                "models": [],
+                "model_names": [],
+                "default": default_model,
+                "status": "nim_error",
+                "count": 0,
+                "error": f"Error connecting to NVIDIA NIM API: {str(e)}"
+            })
+
     def _get_openai_models(provided_api_key=None, api_endpoint=None):
         """Get available models from OpenAI-compatible API
 
@@ -783,6 +872,8 @@ def create_config_blueprint(server_session_id=None):
             'DEEPSEEK_MODEL',
             'POE_API_KEY',
             'POE_MODEL',
+            'NIM_API_KEY',
+            'NIM_MODEL',
             'DEFAULT_MODEL',
             'LLM_PROVIDER',
             'API_ENDPOINT',

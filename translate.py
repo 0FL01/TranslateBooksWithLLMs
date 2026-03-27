@@ -164,7 +164,7 @@ if __name__ == "__main__":
             mistral_api_key=args.mistral_api_key,
             deepseek_api_key=args.deepseek_api_key,
             poe_api_key=args.poe_api_key,
-                nim_api_key=args.nim_api_key,
+            nim_api_key=args.nim_api_key,
             prompt_options=prompt_options
         ))
 
